@@ -6,6 +6,8 @@ import ErrorPage from "./pages/ErrorPage.tsx";
 import Homepage from "./pages/Homepage.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import Product from "./pages/Product.tsx";
+import WebApp from "./pages/WebApp.tsx";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "product",
         element: <Product />,
+      },
+      {
+        path: "app",
+        element: <WebApp />,
       },
     ],
   },

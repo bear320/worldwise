@@ -1,9 +1,11 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import Navbar from "./components/Navbar";
 
 const App = () => {
+  const { pathname } = useLocation();
   return (
     <>
-      <Link to="/">Home</Link> | <Link to="/pricing">Pricing</Link> | <Link to="/product">Product</Link>
+      {pathname !== "/app" && <Navbar />}
       <Outlet />
     </>
   );

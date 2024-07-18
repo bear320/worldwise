@@ -1,0 +1,13 @@
+.nav {
+  background-color: pink;
+
+  ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+  }
+
+  :global(.active) {
+    color: red;
+  }
+}
