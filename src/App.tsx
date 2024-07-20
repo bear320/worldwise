@@ -1,8 +1,8 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 
 const App = () => {
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
 
   return (
     <>
