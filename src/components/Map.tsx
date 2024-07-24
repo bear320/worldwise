@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useCities from "../hooks/useCities";
+import { useUrlPosition } from "../hooks/useUrlPosition";
 import { useGeolocation } from "../hooks/useGeolocation";
 import Button from "./Button";
 import styles from "./Map.module.scss";
@@ -10,11 +11,8 @@ import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "re
 const Map = () => {
   const { cities } = useCities();
   const [mapPosition, setMapPosition] = useState<LatLngTuple>([40, 0]);
-  const [searchParams] = useSearchParams();
+  const { lat: mapLat, lng: mapLng } = useUrlPosition();
   const { isLoading: isLoadingPosition, position: geolocationPosition, getPosition } = useGeolocation();
-
-  const mapLat = Number(searchParams.get("lat"));
-  const mapLng = Number(searchParams.get("lng"));
 
   useEffect(() => {
     if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
@@ -59,16 +57,14 @@ const ChangeCerter = ({ position }: { position: LatLngTuple }) => {
 
 const DetectClick = () => {
   const navigate = useNavigate();
-
   useMapEvents({
     click: (e) => {
-      console.log(e);
-
       navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`, {
         replace: true,
       });
     },
   });
+  return null;
 };
 
 export default Map;
