@@ -16,7 +16,7 @@ export function convertToEmoji(countryCode: string) {
 function Form() {
   const [cityName, setCityName] = useState("");
   const [country, setCountry] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState("");
   const [notes, setNotes] = useState("");
 
   return (
@@ -29,7 +29,13 @@ function Form() {
 
       <div className={styles.row}>
         <label htmlFor="date">When did you go to {cityName}?</label>
-        <input id="date" onChange={(e) => setDate(e.target.valueAsDate!)} value={date.toISOString().split("T")[0]} />
+        <input id="date" type="date" onChange={(e) => setDate(e.target.value)} value={date} />
+        {/* <input
+          id="date"
+          type="date"
+          onChange={(e) => setDate(e.target.valueAsDate!)}
+          value={date.toISOString().split("T")[0]}
+        /> */}
         {/* <input id="date" type="date" onChange={(e) => setDate(e.target.valueAsDate || new Date())} value={date.toISOString().split('T')[0]} /> */}
       </div>
 
