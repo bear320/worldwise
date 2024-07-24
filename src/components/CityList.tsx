@@ -1,12 +1,12 @@
-import { useOutletContext } from "react-router-dom";
-import { City, ContextType } from "../types";
+import useCities from "../hooks/useCities";
+import { City } from "../types";
 import Spinner from "./Spinner";
 import Message from "./Message";
 import CityItem from "./CityItem";
 import styles from "./CityList.module.scss";
 
 const CityList = () => {
-  const { cities, isLoading } = useOutletContext<ContextType>();
+  const { isLoading, cities } = useCities();
 
   if (isLoading) return <Spinner />;
 
