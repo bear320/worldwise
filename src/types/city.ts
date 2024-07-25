@@ -18,14 +18,14 @@ export type CitiesContextType = {
   deleteCity: (id: string) => void;
 };
 
-export type StateType = {
+export type CitiesStateType = {
   isLoading: boolean;
   cities: City[];
   currentCity: City;
   error: string;
 };
 
-export type ActionType =
+export type CitiesActionType =
   | { type: "loading" }
   | { type: "cities/fetched"; payload: City[] }
   | { type: "city/fetched"; payload: City }

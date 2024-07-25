@@ -1,16 +1,16 @@
 import { useEffect, useReducer, createContext } from "react";
-import { City, StateType, ActionType, CitiesContextType } from "../types";
+import { City, CitiesStateType, CitiesActionType, CitiesContextType } from "../types";
 
 const CitiesContext = createContext({} as CitiesContextType);
 
-const initialState: StateType = {
+const initialState: CitiesStateType = {
   isLoading: false,
   cities: [],
   currentCity: {} as City,
   error: "",
 };
 
-const reducer = (state: StateType, action: ActionType): StateType => {
+const reducer = (state: CitiesStateType, action: CitiesActionType): CitiesStateType => {
   switch (action.type) {
     case "loading":
       return {
