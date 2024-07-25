@@ -5,4 +5,6 @@ export type CitiesContextType = {
   cities: City[];
   currentCity: City;
   getCity: (id: string) => void;
+  createCity: (city: Omit<City, "id">) => void;
+  deleteCity: (id: string) => void;
 };

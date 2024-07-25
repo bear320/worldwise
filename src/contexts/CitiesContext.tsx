@@ -5,7 +5,7 @@ const CitiesContext = createContext({} as CitiesContextType);
 
 const CitiesProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [cities, setCities] = useState([]);
+  const [cities, setCities] = useState<City[]>([]);
   const [currentCity, setCurrentCity] = useState({} as City);
 
   useEffect(() => {
@@ -38,8 +38,44 @@ const CitiesProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const createCity = async (city: Omit<City, "id">) => {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/cities`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(city),
+      });
+      const data = await res.json();
+      setCities((cities) => [...cities, data]);
+      setCurrentCity(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteCity = async (id: string) => {
+    try {
+      setIsLoading(true);
+      await fetch(`${import.meta.env.VITE_BASE_URL}/cities/${id}`, {
+        method: "DELETE",
+      });
+      setCities((cities) => cities.filter((city) => city.id !== id));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <CitiesContext.Provider value={{ isLoading, cities, currentCity, getCity }}>{children}</CitiesContext.Provider>
+    <CitiesContext.Provider value={{ isLoading, cities, currentCity, getCity, createCity, deleteCity }}>
+      {children}
+    </CitiesContext.Provider>
   );
 };
 
