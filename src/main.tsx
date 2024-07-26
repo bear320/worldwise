@@ -1,44 +1,54 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import App from "./App.tsx";
-import ErrorPage from "./pages/ErrorPage.tsx";
-import Homepage from "./pages/Homepage.tsx";
-import Pricing from "./pages/Pricing.tsx";
-import Product from "./pages/Product.tsx";
-import Login from "./pages/Login.tsx";
-import WebApp from "./pages/WebApp.tsx";
 import CityList from "./components/CityList.tsx";
 import City from "./components/City.tsx";
 import CountryList from "./components/CountryList.tsx";
 import Form from "./components/Form.tsx";
+import SpinnerFullPage from "./components/SpinnerFullPage.tsx";
 import "./index.css";
+
+const ErrorPage = lazy(() => import("./pages/ErrorPage.tsx"));
+const Homepage = lazy(() => import("./pages/Homepage.tsx"));
+const Pricing = lazy(() => import("./pages/Pricing.tsx"));
+const Product = lazy(() => import("./pages/Product.tsx"));
+const Login = lazy(() => import("./pages/Login.tsx"));
+const WebApp = lazy(() => import("./pages/WebApp.tsx"));
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <ErrorPage />,
+    errorElement: (
+      <Suspense fallback={<SpinnerFullPage />}>
+        <ErrorPage />
+      </Suspense>
+    ),
     children: [
       {
         index: true,
-        element: <Homepage />,
+        element: (
+          <Suspense fallback={<SpinnerFullPage />}>
+            <Homepage />
+          </Suspense>
+        ),
       },
       {
         path: "pricing",
-        element: <Pricing />,
+        element: <Suspense fallback={<SpinnerFullPage />}>{<Pricing />}</Suspense>,
       },
       {
         path: "product",
-        element: <Product />,
+        element: <Suspense fallback={<SpinnerFullPage />}>{<Product />}</Suspense>,
       },
       {
         path: "login",
-        element: <Login />,
+        element: <Suspense fallback={<SpinnerFullPage />}>{<Login />}</Suspense>,
       },
       {
         path: "app",
-        element: <WebApp />,
+        element: <Suspense fallback={<SpinnerFullPage />}>{<WebApp />}</Suspense>,
         children: [
           {
             index: true,
