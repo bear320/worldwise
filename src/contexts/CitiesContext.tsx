@@ -1,4 +1,4 @@
-import { useEffect, useReducer, createContext } from "react";
+import { useEffect, useReducer, createContext, useCallback } from "react";
 import { City, CitiesStateType, CitiesActionType, CitiesContextType } from "../types";
 
 const CitiesContext = createContext({} as CitiesContextType);
@@ -80,20 +80,23 @@ const CitiesProvider = ({ children }: { children: React.ReactNode }) => {
     fetchCities();
   }, []);
 
-  const getCity = async (id: string) => {
-    if (+id === +currentCity.id) return;
+  const getCity = useCallback(
+    async (id: string) => {
+      if (+id === +currentCity.id) return;
 
-    dispatch({ type: "loading" });
+      dispatch({ type: "loading" });
 
-    try {
-      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/cities/${id}`);
-      const data = await res.json();
-      dispatch({ type: "city/fetched", payload: data });
-    } catch (error) {
-      console.error(error);
-      dispatch({ type: "rejected", payload: "Failed to fetch city" });
-    }
-  };
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/cities/${id}`);
+        const data = await res.json();
+        dispatch({ type: "city/fetched", payload: data });
+      } catch (error) {
+        console.error(error);
+        dispatch({ type: "rejected", payload: "Failed to fetch city" });
+      }
+    },
+    [currentCity.id]
+  );
 
   const createCity = async (city: Omit<City, "id">) => {
     dispatch({ type: "loading" });
